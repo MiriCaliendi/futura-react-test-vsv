@@ -13,7 +13,7 @@ const Logo = ({ loading }) => {
     <img
       src={logo}
       alt='interactive-logo'
-      // ... 
+      className={`App-logo${this.state.loading ? " App-logo-spinning" : ""}`} 
     />
   )
 }
@@ -32,7 +32,6 @@ const CategoriesList = ({ categories, onCategoryClick }) => {
 }
 
 const Joke = ({ value, categories }) => {
-  return null
   // <div className="Joke">
   //   <code className="Joke-Value">{value}</code>
   //     per ciascun elemento di 'categories', renderizzare:
@@ -42,10 +41,21 @@ const Joke = ({ value, categories }) => {
   // </div>
 }
 
-// class App extends React.Component {
-function App() {
+class App extends React.Component {
+//function App() {
+  
   // qui tutto ciò che serve al componente per essere inizializzato
-
+  constructor() {
+    super()
+    this.state = {
+      loading: false,
+      error: false,
+      categories: [],
+      selectedCategory: '',
+      fetchedJoke: {},
+      text: ""
+    }
+  }
   // getAllCategories
   // funzione che deve recuperare l'array di tutte le categorie esistenti e salvarlo
 
@@ -58,13 +68,20 @@ function App() {
   // getJokeByKeyword
   // funzione che recupera le barzellette contenenti la parola chiave
   // digitata nel campo di testo
+  getJokeByKeyword = () => {
+    const response = await 
+    fetch(`${ALLLJOKESBYKEYWORD}${this.state.text}`)
+  }
 
   // onInputTextChange
   // handler per l'input di testo
+  onInputTextChange = (event) => {
+    this.setState({text:event.target.value})
+  }
 
   // qui i lifecycle methods
 
-  // render () {
+  render () {
     return (
       <div className="App">
         <div className="App-header">
@@ -75,11 +92,14 @@ function App() {
             type="search"
             id="search" name="search"
             placeholder="Enter keyword here"
-            // ...
+            value= {this.state.text}
+            onChange = {this.onInputTextChange}
           />
           <button
             className="Search-Button"
-            // ...
+            type="button"
+            onClick= {this.getJokeByKeyword}
+            
           >
             <code>CLICK TO SEARCH!</code>
           </button>
@@ -111,11 +131,11 @@ function App() {
           {/* <Joke ... /> */}
         </div>
         <div className="footer">
-        <code>Esame di React per cfp-futura. Grazie ad <a href="https://api.chucknorris.io">api.chucknorris.io</a> per l'immagine e le api. Docente: Vito Vitale. Studente: </code>
+        <code>Esame di React per cfp-futura. Grazie ad <a href="https://api.chucknorris.io">api.chucknorris.io</a> per l'immagine e le api. Docente: Vito Vitale. Studente: Miriana Caliendi  </code>
         </div>
       </div>
     );
-  // }
+  }
 };
 
 export default App;
